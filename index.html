@@ -1,0 +1,219 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>福鼎沿海滩涂光伏电站选址 · 8 硬约束 + 6 因子 + 三情景 + 产能估算</title>
+<style>
+  :root{
+    --paper:#faf7f0; --ink:#2b2b2b; --red:#c23b22; --blue:#4a6fa5;
+    --green:#2e6e3a; --gold:#b8860b; --line:#d8d2c4; --soft:#6b6455;
+  }
+  *{box-sizing:border-box; margin:0; padding:0}
+  body{
+    background:var(--paper); color:var(--ink);
+    font-family:"Microsoft YaHei","PingFang SC","Hiragino Sans GB",sans-serif;
+    line-height:1.75; font-size:15.5px;
+  }
+  .wrap{max-width:1060px; margin:0 auto; padding:0 20px 80px}
+  header{border-bottom:3px double var(--ink); padding:56px 0 30px; margin-bottom:34px}
+  .kicker{letter-spacing:.35em; font-size:12px; color:var(--gold); font-weight:700}
+  h1{font-size:34px; line-height:1.3; margin:10px 0 6px; font-weight:800}
+  .sub{color:var(--soft); font-size:15px}
+  .badges{margin-top:16px}
+  .badge{
+    display:inline-block; border:1px solid var(--ink); border-radius:3px;
+    padding:2px 10px; margin:3px 6px 3px 0; font-size:12.5px; background:#fff;
+  }
+  .badge.b{border-color:var(--blue); color:var(--blue)}
+  .badge.r{border-color:var(--red); color:var(--red)}
+  .stats{display:grid; grid-template-columns:repeat(4,1fr); gap:14px; margin:34px 0 10px}
+  .stat{
+    background:#fff; border:1px solid var(--line); border-top:3px solid var(--gold);
+    padding:16px 18px; text-align:center;
+  }
+  .stat:nth-child(2){border-top-color:var(--blue)}
+  .stat:nth-child(3){border-top-color:var(--red)}
+  .stat:nth-child(4){border-top-color:var(--green)}
+  .stat .n{font-size:30px; font-weight:800; letter-spacing:.02em}
+  .stat .t{font-size:12.5px; color:var(--soft); margin-top:2px}
+  h2{
+    font-size:21px; margin:52px 0 16px; padding-left:12px;
+    border-left:5px solid var(--gold); font-weight:800;
+  }
+  h3{font-size:16.5px; margin:20px 0 8px}
+  p{margin:8px 0}
+  .flow{display:flex; flex-wrap:wrap; gap:6px; align-items:stretch; margin:18px 0}
+  .step{
+    background:#fff; border:1px solid var(--ink); padding:9px 13px; font-size:13px;
+    display:flex; flex-direction:column; justify-content:center; flex:1 1 0; min-width:120px;
+  }
+  .step b{font-size:13.5px}
+  .step span{color:var(--soft); font-size:11.5px}
+  .arrow{align-self:center; color:var(--gold); font-weight:800; font-size:16px}
+  .star{color:var(--red); font-weight:700}
+  figure{
+    background:#fff; border:1px solid var(--line); margin:22px 0; padding:16px 16px 12px;
+  }
+  figure img{width:100%; display:block; border:1px solid var(--line)}
+  figcaption{font-size:13px; color:var(--soft); margin-top:10px}
+  figcaption b{color:var(--ink)}
+  table{width:100%; border-collapse:collapse; background:#fff; font-size:14px; margin:14px 0}
+  th,td{border:1px solid var(--line); padding:8px 12px; text-align:left}
+  th{background:#f1ecdf; font-weight:700}
+  td.num{text-align:right; font-variant-numeric:tabular-nums}
+  .note{
+    background:#fdf6e9; border:1px solid var(--gold); padding:14px 18px;
+    font-size:14px; margin:16px 0;
+  }
+  .note b{color:var(--gold)}
+  code{
+    font-family:Consolas,"Courier New",monospace; font-size:13px;
+    background:#f1ecdf; padding:1px 6px; border-radius:3px;
+  }
+  pre{
+    background:#2b2b2b; color:#f0ead8; padding:16px 18px; overflow-x:auto;
+    font-size:13px; line-height:1.6; margin:14px 0;
+  }
+  pre code{background:none; color:inherit; padding:0}
+  ul{margin:8px 0 8px 22px}
+  li{margin:5px 0}
+  .cta{margin-top:26px}
+  .btn{
+    display:inline-block; background:var(--ink); color:var(--paper); text-decoration:none;
+    padding:10px 22px; font-size:14px; margin:4px 10px 4px 0; border-radius:3px;
+  }
+  .btn.ghost{background:transparent; color:var(--ink); border:1px solid var(--ink)}
+  footer{
+    border-top:1px solid var(--line); margin-top:60px; padding-top:18px;
+    font-size:12.5px; color:var(--soft);
+  }
+  @media (max-width:760px){
+    .stats{grid-template-columns:repeat(2,1fr)}
+    h1{font-size:26px}
+    .flow{flex-direction:column}
+    .arrow{transform:rotate(90deg); align-self:center}
+  }
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<header>
+  <div class="kicker">空间选址作品集 · SPATIAL SUITABILITY PORTFOLIO</div>
+  <h1>福鼎沿海滩涂光伏电站选址</h1>
+  <div class="sub">8 条否决性硬约束 + 6 因子模糊隶属度 × AHP×熵权 + 三经营情景 + 太阳辐射产能估算 · "山地适茶、沿海适光"双选址系列第二篇</div>
+  <div class="badges">
+    <span class="badge">Python 3.13</span>
+    <span class="badge">rasterio · geopandas · scipy</span>
+    <span class="badge b">GeoScene Pro 操作线 + Python 复算线双口径</span>
+    <span class="badge r">产能模型自检 f 值符号校验</span>
+    <span class="badge">全免费公开数据 · 一键复现</span>
+  </div>
+</header>
+
+<div class="stats">
+  <div class="stat"><div class="n">8 + 6</div><div class="t">否决性硬约束 + 加权因子</div></div>
+  <div class="stat"><div class="n">193 ha</div><div class="t">地面集中式可行域（0.2%）</div></div>
+  <div class="stat"><div class="n">135 MW</div><div class="t">渔光互补装机潜力（唯一规模化路径）</div></div>
+  <div class="stat"><div class="n">131 GWh</div><div class="t">S2 渔光互补年发电量估算</div></div>
+</div>
+
+<h2>一、方法链一览</h2>
+<p>研究区福鼎东南沿海（120.16–120.48°E，27.00–27.22°N，约 32×25 km）：
+沙埕湾南岸滩涂与店下—龙安沿海平原。与《白茶新茶园选址》同一方法内核、不同要素语境——
+茶园看坡向与海拔，光伏看<b>并网距离、地类准入（滩涂 vs 耕地）与太阳辐射收益</b>。</p>
+
+<div class="flow">
+  <div class="step"><b>硬约束 L1</b><span>8 条一票否决<br>坡度/地类/并网/涉水…</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><b>模糊隶属度 L2</b><span>6 因子连续建模<br>0~1 隶属度</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><b><span class="star">组合赋权 ★</span></b><span>AHP × 熵权几何平均<br>±50% 扰动敏感性</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><b>三情景 L3</b><span>集中式 / 渔光互补浮体<br>分散式近网 + 共识区</span></div>
+  <div class="arrow">→</div>
+  <div class="step"><b>产能估算</b><span>太阳几何数值积分<br>f×GHI×η×PR×面积</span></div>
+</div>
+
+<div class="note"><b>核心发现：</b>8 条硬约束筛完，地面集中式仅剩 <b>193 ha（0.2%）</b>——
+主控约束是地类准入（研究区 42.9% 被 WorldCover 映射为水体/海面）、坡度（51.5%）、并网距离（47.1%）。
+<b>"地面集中式在福鼎沿海几乎没有空间"本身即是核心结论</b>：渔光互补浮体 9 片/161 ha ≈ 135 MW/131 GWh
+是唯一规模化路径，与福建省海上光伏试点以渔光互补为主的政策现实完全吻合。</div>
+
+<h2>二、成果图</h2>
+
+<figure>
+  <img src="assets/fig_suitability.png" alt="滩涂光伏选址参考图（S1 基准）" loading="lazy">
+  <figcaption><b>图 1 · S1 集中式基准适宜性参考图。</b>左：山体阴影底图 + 四级适宜性（I 最适宜 ≥80 /
+  II 适宜 65~80 / III 一般 50~65 / IV 较差）+ 输电线路（红）+ 多情景共识区描边；
+  右上三联：S1 集中式 / S2 渔光互补浮体 / S3 分散式近网候选地块（绿色）；
+  右下：三情景年发电量对比（14 / 131 / 20 GWh）——渔光互补一骑绝尘。</figcaption>
+</figure>
+
+<h2>三、关键数字</h2>
+
+<h3>3.1 三情景对比</h3>
+<table>
+  <tr><th>情景</th><th>调整</th><th>候选地块</th><th>装机潜力</th><th>年发电量</th></tr>
+  <tr><td>S1 集中式地面（基准）</td><td>—</td><td>1 片 / 17 ha（龙安裸地，S=93.6）</td><td class="num">0.014 GW</td><td class="num">14 GWh</td></tr>
+  <tr><td><b>S2 渔光互补浮体</b></td><td>地类放宽至水面/滩涂，坡度因子取 1，地类权重 0.30</td><td><b>9 片 / 161 ha（沿海养殖水面）</b></td><td class="num"><b>0.135 GW</b></td><td class="num"><b>131 GWh</b></td></tr>
+  <tr><td>S3 分散式近网</td><td>并网收紧至 1500m，门槛 5ha</td><td>2 片 / 25 ha</td><td class="num">0.021 GW</td><td class="num">20 GWh</td></tr>
+  <tr><td colspan="2">多情景共识区（≥2 情景入选，稳健推荐）</td><td colspan="3" class="num">68 ha</td></tr>
+</table>
+
+<h3>3.2 AHP × 熵权组合权重（几何平均）</h3>
+<table>
+  <tr><th>因子</th><th>AHP</th><th>熵权</th><th>组合</th></tr>
+  <tr><td>地类现状</td><td class="num">.16</td><td class="num">.302</td><td class="num"><b>.242</b></td></tr>
+  <tr><td>并网距离</td><td class="num">.28</td><td class="num">.142</td><td class="num"><b>.219</b></td></tr>
+  <tr><td>坡度</td><td class="num">.18</td><td class="num">.178</td><td class="num"><b>.197</b></td></tr>
+  <tr><td>居民点退距</td><td class="num">.10</td><td class="num">.316</td><td class="num"><b>.196</b></td></tr>
+  <tr><td>道路可达</td><td class="num">.16</td><td class="num">.031</td><td class="num">.078</td></tr>
+  <tr><td>生态缓冲</td><td class="num">.12</td><td class="num">.031</td><td class="num">.068</td></tr>
+</table>
+<p style="font-size:13.5px;color:var(--soft)">熵权与 AHP 的显著分歧（居民点退距 0.316 对 0.10、道路 0.031 对 0.16）
+反映小可行域内隶属度方差的再分配；全因子 ±50% 扰动时候选面积波动仅 −4.6%~+2.0%（小可行域阈值饱和效应），组合结果稳定。</p>
+
+<h2>四、方法要点</h2>
+
+<h3>4.1 并网约束（本选题新增要素）</h3>
+<p>送出线路投资是陆上光伏最大的弹性成本：距输电线路 ≤3000m 设为硬约束（经济性经验上限），
+并网距离再做 ≤500m→1 / 3000m→0 的线性隶属度因子。输电线来自 Overpass
+<code>way["power"~"^(line|minor_line)$"]</code>（含电压属性）——大 bbox 全要素查询会 502，
+拆成"轻核心查询保成功 + 建筑重查询单独重试"，3 镜像轮换。</p>
+
+<h3>4.2 产能估算：太阳几何数值积分（自检把关）</h3>
+<p>12 个月代表日 × 逐 0.2° 时角采样太阳矢量（赤纬 Cooper 公式），投影到地块平均坡度/坡向面，
+按各向同性天空模型（直散分离 df=0.45、反照率 ρ=0.2）积分年 POA，除以年 GHI 得倾斜面转换系数 f。
+自检：f(0°)=1.000 / 南坡 5°=1.009 / 北坡 5°=0.986——南向微坡增益、北向损耗，符号与量级正确。
+年发电量 E = f × GHI_ref × η × PR × 面积（GHI_ref=1210 kWh/m²·yr、η=0.21、PR=0.80）。
+<b>GCR=0.40 阵列覆盖系数必须计入——漏了会虚高 2.5 倍。</b></p>
+
+<h3>4.3 双口径互校</h3>
+<p>GeoScene Pro 区域太阳辐射工具（含坡度坡向遮挡校正）与 Python 数值积分同参数互校，
+结果允许 ±10% 浮动；权重表、情景对比、候选地块清单均由脚本落盘 CSV，数字可复核。</p>
+
+<h2>五、局限（如实报告）</h2>
+<ul>
+  <li>OSM 电力线映射可能不全（尤其 35kV 农网支线）——并网约束存在漏判风险，正式规划应以电网公司电网图为准；</li>
+  <li>滩涂用地涉及海域使用权、养殖清退、军事与航道等要素，超出公开数据范围，本分析仅为空间适宜性初筛；</li>
+  <li>30m DEM 高程精度（±5m 级）对 2m 高程下限判定偏粗糙，正式阶段需 LiDAR 或实测；</li>
+  <li>GHI 参照值为常量，未含年际气象波动；精确产能需 PVsyst 级仿真；</li>
+  <li>未考虑电网消纳能力（当地负荷与既有接入容量），需电网部门数据。</li>
+</ul>
+
+<div class="cta">
+  <a class="btn" href="https://github.com/dingdjfjs-star/tidal-flat-pv-siting">GitHub 仓库（完整代码 + 数据 + 复算脚本）</a>
+  <a class="btn ghost" href="技术路线.md">交付文档 技术路线.md</a>
+  <a class="btn ghost" href="https://github.com/dingdjfjs-star/fuding-eco-network">同城姊妹篇：生态网络修复关键节点</a>
+</div>
+
+<footer>
+  福鼎沿海滩涂光伏电站选址 · 8 硬约束 + 6 因子 AHP×熵权 + 三情景 + 产能估算 ·
+  Copernicus GLO-30 + ESA WorldCover 2021 + OSM Overpass · Python + GeoScene Pro 双口径
+</footer>
+
+</div>
+</body>
+</html>
